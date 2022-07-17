@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="main.css" />
+    <title>Todo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <style>
+      body {
+        background-color: black;
+      }
+      header {
+        background-image: url(images/bg-desktop-dark.jpg);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <i class="bi bi-brightness-high-fill" id="toggleDark"></i>
+
+      <img src="images/bg-desktop-light.jpg" alt="" />
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="cart-header"><h1>T O D O</h1></div>
+            <div class="card-body">
+              <form>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    id="txtTaskName"
+                    class="form-control"
+                    placeholder="Create a new todo… "
+                  />
+                  <button type="submit" class="btn" id="btnAddNewTask">
+                    Add Task
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="cardnt-3">
+            <ul id="task-list" class="list-group"></ul>
+            <div class="footer controls">
+              <div class="filters">
+                <span class="active" id="all">All </span>
+                <span id="panding">Panding</span>
+                <span id="compeleted"> Compeleted </span>
+              </div>
+              <button class="btn-danger" id="btn-danger">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /*let result;*/
+      let taskList = [];
+      if (localStorage.getItem("taskList") !== null) {
+        taskList = JSON.parse(localStorage.getItem("taskList"));
+      }
+      /* let taskList = [
+      { id: 1, taskname: "task 1", status: "compeleted" },
+      { id: 2, taskname: "task 2", status: "panding" },
+      { id: 3, taskname: "task 3", status: "compeleted" },
+      { id: 4, taskname: "task 4", status: "panding" },
+    ];*/
+      displayTasks();
+      function displayTasks(filter) {
+        let ul = document.getElementById("task-list");
+        //let count = ul.children.length;
+        ul.innerHTML = "";
+        for (let index of taskList) {
+          let completed = index.status == "compeleted" ? "checked" : "";
+
+          let li = `
+       <li class="task list-group-item" >
+             <div class="form-check">
+                    <input type="checkbox"
+                    onclick="updateStatus(this)"
+                     id="${index.id}"
+                     class="form-check-input" ${completed} >
+
+                    <label for="${index.id}" class="form-check-label ${completed}">
+                         ${index.taskname}
+                        </label>
+              </div > <a
+              onclick="deleteTask(${index.id})"
+              
+              style="text-decoration: none; font-family:Montserrat"
+              class="delete-item"
+              href="#"
+              >X</a>
+              
+        </li>
+      `;
+          ul.insertAdjacentHTML("beforeend", li);
+        }
+      }
+
+      let btnEkle = document.querySelector("#btnAddNewTask");
+      btnEkle.addEventListener("click", function (event) {
+        let taskInput = document.querySelector("#txtTaskName");
+        if (taskInput.value == "") {
+          alert("Please enter any task!");
+        } else {
+          taskList.push({
+            id: taskList.length + 1,
+            taskname: taskInput.value,
+          });
+          taskInput.value = "";
+          displayTasks();
+          // localStorage.setItem("taskList", JSON.stringify(taskList));
+        }
+
+        const filters = document.querySelectorAll(".filters.span");
+        for (let span of filters) {
+          span.addEventListener("click", function () {
+            document.querySelector("span.active").classList.remove("active");
+            span.classList.add("active");
+            // localStorage.setItem("taskList", JSON.stringify(taskList));
+          });
+        }
+        /* console.log(taskInput.value);*/
+        /*  let li = `
+       <li class="task list-group-item" >
+             <div class="form-check">
+                    <input type="checkbox"
+                     id="1"
+                     class="form-check-input" />
+
+                    <label for="2" class="form-check-label">
+                         ${taskInput.value}
+                        </label>
+              </div>
+        </li>
+      `;
+        ul.insertAdjacentHTML("afterbegin", li);
+       */
+        event.preventDefault();
+      });
+      let clearBtn = document.querySelector(".btn-danger");
+      clearBtn.addEventListener("click", function () {
+        taskList.splice(0, taskList.length);
+        // localStorage.setItem("taskList", JSON.stringify(taskList));
+
+        displayTasks();
+      });
+      /* document
+        .querySelector("#btnAddNewTask")
+        .addEventListener("click".newTask);
+      function newTask(event) {
+        event.preventDefault();
+      }*/
+
+      function deleteTask(id) {
+        let deletedId;
+        for (let indexx in taskList) {
+          if (taskList[indexx].id == id) {
+            deletedId = indexx;
+          }
+        }
+
+        taskList.splice(deletedId, 1);
+        displayTasks();
+      }
+      //bt;
+
+      /* document
+        .querySelector(".delete-item")
+        .addEventListener("click", function (event) {
+          console.log("deleted");
+          event.preventDefault();
+        });*/
+
+      /*let blackTheme = document.querySelector(".theme");
+      blackTheme.addEventListener("click", function (event) {
+        /*  this.classList.blackTheme();
+        if (this.classList.blackTheme("")) {
+          body.style.background = "white";
+          body.style.color = "black";
+          body.style.transition = "2s";
+        } else {
+          body.style.background = "black";
+          body.style.color = "white";
+          body.style.transition = "2s";
+        }*/ const toggle = document.getElementById("toggleDark");
+      const body = document.querySelector("body");
+
+      toggle.addEventListener("click", function () {
+        this.classList.toggle("bi-moon");
+        if (this.classList.toggle("bi-brightness-high-fill")) {
+          body.style.background = "white";
+          body.style.color = "black";
+
+          body.style.transition = "1s";
+        } else {
+          body.style.background = "black";
+          body.style.color = "white";
+
+          body.style.transition = "1s";
+        }
+        //  localStorage.setItem("taskList", JSON.stringify(taskList));
+      });
+      //});
+      function updateStatus(selectedTask) {
+        let label = selectedTask.parentElement.lastElementChild;
+        let status;
+        if (selectedTask.checked) {
+          label.classList.add("checked");
+          status = "compeleted";
+        } else {
+          label.classList.remove("checked");
+          status = "panding";
+        }
+        for (let index of taskList) {
+          if (index.id == selectedTask.id) {
+            index.id = status;
+          }
+        }
+        // console.log(taskList);
+        //displayTasks(document.querySelector("span.active").id);
+        localStorage.setItem("taskList", JSON.stringify(taskList));
+      }
+
+      let t;
+    </script>
+  </body>
+</html>

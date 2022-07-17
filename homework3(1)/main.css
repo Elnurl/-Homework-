@@ -1,0 +1,114 @@
+body {
+  background-color: #f2f2f2;
+}
+header img {
+  width: 100%;
+}
+#toggleDark {
+  position: absolute;
+  top: 10%;
+  left: 70%;
+  width: 30px;
+  height: 30px;
+}
+.cart-header h1 {
+  font-family: Josefin Sans;
+  width: 700;
+  color: #ffffff;
+  padding-bottom: 35px;
+  font-size: 40px;
+}
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+ul li {
+  list-style-type: none;
+}
+.form-control {
+  width: 540px;
+  height: 50px;
+
+  background: #ffffff;
+  box-shadow: 0px 35px 50px -15px rgba(194, 195, 214, 0.5);
+  border-radius: 5px;
+}
+.btn {
+  display: none;
+}
+.form-control .placeholder {
+  font-family: Josefin Sans;
+  font-size: 10000px;
+}
+input ::placeholder {
+  font-family: Josefin Sans;
+}
+.cardnt-3 {
+  background-color: white;
+  border: 10px black;
+
+  width: 540px;
+  background: #ffffff;
+  box-shadow: 0px 35px 50px -15px rgba(194, 195, 214, 0.5);
+  border-radius: 10px;
+}
+.footer {
+  display: flex;
+  justify-content: right;
+}
+.list-group {
+  padding-left: 0;
+  font-family: Josefin Sans;
+  font-size: large;
+}
+.list-group li {
+  border: 10px black;
+}
+
+.list-group-item {
+  padding: 10px;
+  box-shadow: 10px black;
+}
+.list-group-item.form-check {
+  border: 10px;
+  border-color: black;
+}
+.task {
+  display: flex;
+  justify-content: space-between;
+}
+.task label.checked {
+  text-decoration: line-through;
+}
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.filters span.active {
+  color: rgb(9, 61, 220);
+}
+.filters span {
+  margin: 5px;
+  font-size: 15px;
+  color: #444;
+  cursor: pointer;
+}
+.filters span.active {
+  margin-left: 15px;
+}
+#btn-danger {
+  border-style: none;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 15px;
+  font-family: Josefin Sans;
+  font-size: 16px;
+  background-color: #ffffff;
+}
+
+.xx {
+  font-family: Montserrat;
+}
